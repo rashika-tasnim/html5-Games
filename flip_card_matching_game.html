@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Climate Match Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #e6f4f1;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .card {
+      background: #d4f0ec;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .card.flipped {
+      background: #a2d9ce;
+    }
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #restartButton {
+      display: none;
+      background-color: transparent;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 40px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    #restartButton:hover {
+      background-color: #e0f7fa;
+      border-color: #26c6da;
+    }
+  </style>
+</head>
+<body>
+  <h1>Match the Climate Concepts</h1>
+  <p>Flip two matching cards to reveal the message!</p>
+  <div class="grid" id="cardGrid"></div>
+  <div class="message" id="messageBox"></div>
+  <button id="restartButton" onclick="restartGame()">Restart</button>
+
+  <script>
+    const pairs = [
+      { name: "Solar Energy", message: "Solar panels reduce fossil fuel use." },
+      { name: "Plant Trees", message: "Trees absorb CO₂ from the atmosphere." },
+      { name: "Public Transport", message: "Using public transport lowers carbon footprint." }
+    ];
+
+    let cards = [...pairs, ...pairs].sort(() => 0.5 - Math.random());
+    const grid = document.getElementById("cardGrid");
+    let flipped = [];
+    let matchedPairs = 0;
+
+    cards.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.dataset.name = item.name;
+      card.textContent = "?";
+      card.addEventListener("click", () => {
+        if (flipped.length < 2 && !card.classList.contains("flipped")) {
+          card.textContent = item.name;
+          card.classList.add("flipped");
+          flipped.push({ card, item });
+          if (flipped.length === 2) {
+            setTimeout(() => {
+              if (flipped[0].item.name === flipped[1].item.name) {
+                matchedPairs++;
+                document.getElementById("messageBox").textContent = flipped[0].item.message;
+              } else {
+                flipped[0].card.textContent = "?";
+                flipped[1].card.textContent = "?";
+                flipped[0].card.classList.remove("flipped");
+                flipped[1].card.classList.remove("flipped");
+              }
+              flipped = [];
+              if (matchedPairs === pairs.length) {
+                document.getElementById("messageBox").textContent = "Great job! You matched all the concepts.";
+                document.getElementById("restartButton").style.display = "inline-block";
+              }
+            }, 700);
+          }
+        }
+      });
+      grid.appendChild(card);
+    });
+
+    function restartGame() {
+      location.reload();
+    }
+  </script>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <a href="index.html" style="text-decoration: none; color: #007BFF;">← Back to Home</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sustainability Sort Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f2f5;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #014f86;
+    }
+    .instruction {
+      margin-bottom: 20px;
+    }
+    .items, .targets {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .card, .dropzone {
+      width: 150px;
+      height: 80px;
+      padding: 10px;
+      background-color: white;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      transition: all 0.3s ease;
+    }
+    .dropzone.correct {
+      border: 2px solid #4caf50;
+      background-color: #e8f5e9;
+    }
+    .dropzone.incorrect {
+      border: 2px solid #f44336;
+      background-color: #ffebee;
+    }
+    .hidden {
+      display: none;
+    }
+    #message {
+      font-size: 1.3em;
+      color: #006400;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .control-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: transparent;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: none;
+    }
+    .control-btn:hover {
+      background-color: #e0f7fa;
+      border-color: #26c6da;
+    }
+    .home-link {
+      margin-top: 10px;
+      display: block;
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Match Sustainability Items</h1>
+  <div class="instruction">Drag each item onto the correct target box below.</div>
+
+  <div class="items">
+    <div class="card" draggable="true" id="bike">Riding a bike</div>
+    <div class="card" draggable="true" id="plastic">Using plastic bags</div>
+    <div class="card" draggable="true" id="solar">Using solar panels</div>
+    <div class="card" draggable="true" id="electricity">Wasting electricity</div>
+  </div>
+
+  <div class="targets">
+    <div class="dropzone" data-id="bike">Sustainable</div>
+    <div class="dropzone" data-id="solar">Sustainable</div>
+    <div class="dropzone" data-id="plastic">Unsustainable</div>
+    <div class="dropzone" data-id="electricity">Unsustainable</div>
+  </div>
+
+  <div id="message" class="hidden">Great job! You sorted all items correctly!</div>
+  <button id="restartBtn" class="control-btn" onclick="restartGame()">Restart</button>
+  <a href="index.html" class="home-link">← Back to Home</a>
+
+  <script>
+    const cards = document.querySelectorAll(".card");
+    const zones = document.querySelectorAll(".dropzone");
+    let correctCount = 0;
+
+    cards.forEach(card => {
+      card.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text", e.target.id);
+      });
+    });
+
+    zones.forEach(zone => {
+      zone.addEventListener("dragover", (e) => e.preventDefault());
+      zone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const draggedId = e.dataTransfer.getData("text");
+        const dropId = e.currentTarget.getAttribute("data-id");
+
+        if (draggedId === dropId) {
+          const card = document.getElementById(draggedId);
+          card.classList.add("hidden");
+          e.currentTarget.classList.add("correct");
+          e.currentTarget.innerHTML = "✔ Correct!";
+          correctCount++;
+          if (correctCount === 4) {
+            document.getElementById("message").classList.remove("hidden");
+            document.getElementById("restartBtn").style.display = "inline-block";
+          }
+        } else {
+          e.currentTarget.classList.add("incorrect");
+          setTimeout(() => e.currentTarget.classList.remove("incorrect"), 1000);
+        }
+      });
+    });
+
+    function restartGame() {
+      location.reload();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTML5 Educational Games</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: #e6f4f1;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c7a7b;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      background-color: #38b2ac;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 250px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #319795;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌱 Educational Game Bundle</h1>
+  <p>Select and enjoy our browser-based mini games:</p>
+
+  <div class="game-container">
+    <button class="btn" onclick="window.location.href='drag_drop_game_redesigned.html'">🔀 Drag & Drop Sorting</button>
+    <button class="btn" onclick="window.location.href='flip_card_matching_game.html'">🧠 Flip Card Match</button>
+    <button class="btn" onclick="window.location.href='fill_in_the_blank_game.html'">✍️ Fill in the Blank</button>
+  </div>
+
+</body>
+</html>
