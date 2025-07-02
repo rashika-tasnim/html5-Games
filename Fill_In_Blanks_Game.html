@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fire Safety Fill in the Blanks</title>
+  <style>
+    body {
+     font-family: Arial, sans-serif;
+      text-align: center;
+      background: url('background-image.png');
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #bf360c;
+    }
+    p {
+     
+      color: #fff;
+    }
+    .question-block {
+      margin-bottom: 30px;
+    }
+    .sentence {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .option-btn {
+      padding: 10px 16px;
+      background-color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .option-btn:hover {
+      background-color: #ffcc80;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+      color: green;
+    }
+    #finishBtn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #999;
+      background-color: #ffe6e6;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Fire Safety: Fill in the Blank</h2>
+
+  <div class="question-block" id="q1">
+    <div class="sentence" id="q1-sentence">
+    <p> You are on the 4th floor and smoke is coming from below.<br/>
+     You should <strong>_____</strong> and call emergency services.</p> 
+    </div>
+    <div class="options">
+      <button class="option-btn" onclick="checkAnswer(1, this)">stay in place</button>
+      <button class="option-btn" onclick="checkAnswer(1, this)">run through smoke</button>
+      <button class="option-btn" onclick="checkAnswer(1, this)">take the elevator</button>
+    </div>
+    <div class="feedback" id="q1-feedback"></div>
+  </div>
+
+  <div class="question-block" id="q2">
+    <div class="sentence" id="q2-sentence">
+    <p> When evacuating during a fire, use stairs and <strong>_____</strong> behind you.</p> 
+    </div>
+    <div class="options">
+      <button class="option-btn" onclick="checkAnswer(2, this)">close doors</button>
+      <button class="option-btn" onclick="checkAnswer(2, this)">leave doors open</button>
+      <button class="option-btn" onclick="checkAnswer(2, this)">lock doors</button>
+    </div>
+    <div class="feedback" id="q2-feedback"></div>
+  </div>
+
+  <div class="question-block" id="q3">
+    <div class="sentence" id="q3-sentence">
+    <p>   Foam fire extinguishers are most suitable for <strong>_____</strong> fires.</p> 
+    </div>
+    <div class="options">
+      <button class="option-btn" onclick="checkAnswer(3, this)">liquid</button>
+      <button class="option-btn" onclick="checkAnswer(3, this)">electrical</button>
+      <button class="option-btn" onclick="checkAnswer(3, this)">metal</button>
+    </div>
+    <div class="feedback" id="q3-feedback"></div>
+  </div>
+
+  <button id="finishBtn" onclick="window.location.href='flip_card_game.html'"> Done</button>
+
+  <script>
+    const answers = {
+      1: "stay in place",
+      2: "close doors",
+      3: "liquid"
+    };
+
+    const completed = {
+      1: false,
+      2: false,
+      3: false
+    };
+
+    function checkAnswer(qNum, btn) {
+      const correct = answers[qNum];
+      const feedbackBox = document.getElementById(`q${qNum}-feedback`);
+      const sentence = document.getElementById(`q${qNum}-sentence`);
+
+      if (btn.textContent === correct) {
+        feedbackBox.textContent = "✅ Correct!";
+        btn.style.backgroundColor = "#c8e6c9";
+        sentence.innerHTML = sentence.innerHTML.replace("_____", `<strong>${correct}</strong>`);
+        completed[qNum] = true;
+        checkAllComplete();
+      } else {
+        feedbackBox.textContent = "❌ Try again.";
+      }
+    }
+
+    function checkAllComplete() {
+      if (completed[1] && completed[2] && completed[3]) {
+        document.getElementById("finishBtn").style.display = "inline-block";
+      }
+    }
+
+    function finishQuiz() {
+      alert("Great job! You’ve completed the fill-in-the-blanks quiz.");
+      window.location.href = "index.html"; // Or next game screen
+    }
+  </script>
+
+</body>
+</html>

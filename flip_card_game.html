@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flip to Learn: Fire Safety</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: url('background-image.png')no-repeat center center;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .card {
+      background: #fff2f2;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #000;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+    .card.flipped {
+      background: #ff9999;
+    }
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #restartButton, #nextButton {
+      display: none;
+      background-color: #fff;
+      color: #b30000;
+      border: 1px solid #b30000;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 30px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    #restartButton:hover, #nextButton:hover {
+      background-color: #ffe6e6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 Fire Safety Match</h1>
+  <p>Flip cards to learn deeper fire safety actions!</p>
+  <div class="grid" id="cardGrid"></div>
+  <div class="message" id="messageBox"></div>
+  <button id="restartButton" onclick="restartGame()">Play Again</button>
+  <button id="nextButton" onclick="goNext()">Next</button>
+
+  <script>
+    const pairs = [
+      { name: "Check Fire Extinguisher", message: "Know the type of extinguisher (A/B/C/K) before using it on a fire." },
+      { name: "Evacuate, Then Call", message: "Always evacuate first. Call emergency services after reaching safety." },
+      { name: "Close Doors Behind You", message: "Closing doors slows the spread of fire and smoke." },
+      { name: "Stay by the Stove", message: "Never leave cooking unattended — most fires start in the kitchen." }
+    ];
+
+    let cards = [...pairs, ...pairs].sort(() => 0.5 - Math.random());
+    const grid = document.getElementById("cardGrid");
+    let flipped = [];
+    let matchedPairs = 0;
+
+    cards.forEach((item) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.dataset.name = item.name;
+      card.textContent = "?";
+      card.addEventListener("click", () => {
+        if (flipped.length < 2 && !card.classList.contains("flipped")) {
+          card.textContent = item.name;
+          card.classList.add("flipped");
+          flipped.push({ card, item });
+
+          if (flipped.length === 2) {
+            setTimeout(() => {
+              if (flipped[0].item.name === flipped[1].item.name) {
+                matchedPairs++;
+                document.getElementById("messageBox").textContent = flipped[0].item.message;
+              } else {
+                flipped.forEach(f => {
+                  f.card.textContent = "?";
+                  f.card.classList.remove("flipped");
+                });
+              }
+              flipped = [];
+              if (matchedPairs === pairs.length) {
+                document.getElementById("messageBox").textContent = "✅ All matched! You're learning fast.";
+                document.getElementById("nextButton").style.display = "inline-block";
+              }
+            }, 700);
+          }
+        }
+      });
+      grid.appendChild(card);
+    });
+
+    function restartGame() {
+      location.reload();
+    }
+
+    function goNext() {
+      window.location.href = "FireHazard_game1.html"; // Replace with actual next game path
+    }
+  </script>
+
+</body>
+</html>

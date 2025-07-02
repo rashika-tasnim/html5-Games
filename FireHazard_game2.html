@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Fire Hazard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff6f0;
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #c62828;
+      margin-bottom: 8px;
+    }
+
+    .instruction {
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .container {
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 18%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-color: rgba(255, 0, 0, 0);
+      cursor: pointer;
+    }
+
+    .hotspot.active {
+      border: 2px dashed #f44336;
+      background-color: rgba(255, 204, 204, 0.5);
+    }
+
+    .feedback {
+      position: absolute;
+      background: #fff8dc;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #f0ad4e;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.4;
+      word-break: break-word;
+      display: none;
+      max-width: 140px;
+      z-index: 9;
+    }
+
+    #finalMessage {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #2e7d32;
+      display: none;
+    }
+
+    #homeBtn {
+      margin-top: 12px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(195, 73, 73);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      display: none;
+      cursor: pointer;
+    }
+
+    #homeBtn:hover {
+      background-color: #b30000;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 School Fire Hazards</h1>
+  <div class="instruction">Tap on what’s wrong in the image.</div>
+
+  <div class="container" id="scene">
+    <img src="FireHazard_game2.html" alt="School Fire Hazard Scene" />
+
+    <!-- Hotspot 1: Blocked Fire Extinguisher -->
+    <div class="hotspot" id="hotspot1" style="top: 52%; left: 29%;" 
+         onclick="showTip(this, 'Fire extinguisher\nis blocked\nby furniture.')"></div>
+
+    <!-- Hotspot 2: Obstructed Emergency Exit -->
+    <div class="hotspot" id="hotspot2" style="top: 58%; left: 55%;" 
+         onclick="showTip(this, 'Exit is blocked\nwith boxes,\nunsafe to escape.')"></div>
+
+    <div id="tooltip" class="feedback"></div>
+  </div>
+
+  <div id="finalMessage">🎉 Good job!<br>You have completed all the games.<br>Hope you learned something.</div>
+  <button id="homeBtn" onclick="goHome()">Go Back Home</button>
+
+  <script>
+    const state = {
+      hotspot1: false,
+      hotspot2: false
+    };
+
+    function showTip(el, message) {
+      const tooltip = document.getElementById("tooltip");
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      el.classList.add('active');
+
+      tooltip.innerHTML = message.replace(/\n/g, "<br/>");
+      tooltip.style.display = "block";
+      tooltip.style.top = `${el.offsetTop - 10}px`;
+      tooltip.style.left = `${el.offsetLeft + el.offsetWidth + 8}px`;
+
+      if (el.id === "hotspot1") state.hotspot1 = true;
+      if (el.id === "hotspot2") state.hotspot2 = true;
+
+      if (state.hotspot1 && state.hotspot2) {
+        document.getElementById("finalMessage").style.display = "block";
+        document.getElementById("homeBtn").style.display = "inline-block";
+      }
+    }
+
+    function goHome() {
+      // Replace with your Android app landing deep link or homepage URL
+      window.location.href = "https://your-app-landing-page.com"; 
+    }
+  </script>
+</body>
+</html>

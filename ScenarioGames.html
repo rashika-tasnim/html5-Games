@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fire Safety Quiz</title>
+  <style>
+    body {
+     font-family: Arial, sans-serif;
+      text-align: center;
+      background: url('background-image.png');
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    .question-block {
+      display: none;
+      margin-top: 40px;
+    }
+    .question-block.active {
+      display: block;
+    }
+    h2 {
+      color: #ffcccb;
+    }
+    .option-btn {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      padding: 16px 20px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 320px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .option-btn.correct {
+      background-color: #4caf50 !important;
+      color: white;
+    }
+    .option-btn.incorrect {
+      background-color: #f44336 !important;
+      color: white;
+    }
+    .option-btn:disabled {
+      cursor: not-allowed;
+    }
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .next-btn, .show-answer-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 15px;
+      background-color: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 Fire Safety Scenario Quiz</h1>
+
+  <div class="question-block active" id="q1" data-correct="Water extinguisher">
+    <h2>You see a small paper fire in a trash bin. <br/> What should you use?</h2>
+    <button class="option-btn" onclick="checkAnswer(this, 'q1')">CO₂ extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q1')">Water extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q1')">Dry powder extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q1')">Wet chemical extinguisher</button>
+    <div class="feedback" id="fb-q1"></div>
+    <button class="show-answer-btn" onclick="showAnswer('q1')">Show Answer</button>
+    <button class="next-btn" onclick="nextQuestion('q1', 'q2')">Next</button>
+  </div>
+
+  <div class="question-block" id="q2" data-correct="CO₂ extinguisher">
+    <h2>A computer in the school lab catches fire. <br/>What extinguisher should you use?</h2>
+    <button class="option-btn" onclick="checkAnswer(this, 'q2')">Water extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q2')">CO₂ extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q2')">Foam extinguisher</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q2')">Wet chemical extinguisher</button>
+    <div class="feedback" id="fb-q2"></div>
+    <button class="show-answer-btn" onclick="showAnswer('q2')">Show Answer</button>
+    <button class="next-btn" onclick="nextQuestion('q2', 'q3')">Next</button>
+  </div>
+
+  <div class="question-block" id="q3" data-correct="Seal doors, stay low, and wait for help">
+    <h2>You're trapped on the top floor with thick smoke. <br/>What should you do?</h2>
+    <button class="option-btn" onclick="checkAnswer(this, 'q3')">Use the elevator immediately</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q3')">Open a window and jump</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q3')">Seal doors, stay low, and wait for help</button>
+    <button class="option-btn" onclick="checkAnswer(this, 'q3')">Ignore the smoke and run</button>
+    <div class="feedback" id="fb-q3"></div>
+    <button class="show-answer-btn" onclick="showAnswer('q3')">Show Answer</button>
+    <button class="next-btn" onclick="window.location.href='Fill_In_Blanks_Game.html'">▶ Next</button>
+  </div>
+
+  <script>
+    function checkAnswer(btn, qId) {
+      const block = document.getElementById(qId);
+      const correctText = block.dataset.correct;
+      const feedback = document.getElementById('fb-' + qId);
+      const allButtons = block.querySelectorAll('.option-btn');
+
+      if (btn.textContent === correctText) {
+        btn.classList.add("correct");
+        feedback.textContent = "✓ Correct!";
+        feedback.style.color = "#00ff88";
+        allButtons.forEach(b => b.disabled = true);
+        block.querySelector('.next-btn').style.display = 'inline-block';
+        block.querySelector('.show-answer-btn').style.display = 'none';
+      } else {
+        btn.classList.add("incorrect");
+        btn.disabled = true;
+        feedback.textContent = "✗ Incorrect. Try again or show answer.";
+        feedback.style.color = "#ffcccb";
+        block.querySelector('.show-answer-btn').style.display = 'inline-block';
+      }
+    }
+
+    function showAnswer(qId) {
+      const block = document.getElementById(qId);
+      const correctText = block.dataset.correct;
+      const allButtons = block.querySelectorAll('.option-btn');
+      allButtons.forEach(b => {
+        if (b.textContent === correctText) {
+          b.classList.add("correct");
+        } else {
+          b.classList.add("incorrect");
+        }
+        b.disabled = true;
+      });
+      block.querySelector('.next-btn').style.display = 'inline-block';
+      block.querySelector('.show-answer-btn').style.display = 'none';
+      document.getElementById('fb-' + qId).textContent = `✔ Correct answer: ${correctText}`;
+    }
+
+    function nextQuestion(currentId, nextId) {
+      document.getElementById(currentId).classList.remove('active');
+      document.getElementById(nextId).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  </script>
+
+</body>
+</html>

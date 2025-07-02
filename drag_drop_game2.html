@@ -2,30 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fire Safety Match Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Match Fire Extinguishers</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
+      background: url('background-image.png');
+      background-size: cover;
       margin: 0;
       padding: 20px;
-      color: white;
     }
-    .bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
 
     h1 {
-      color: #ffffff;
+      color: #c62828;
     }
+
     .instruction {
       font-weight: bold;
       margin-bottom: 20px;
@@ -50,7 +42,6 @@
       min-height: 60px;
       padding: 10px;
       background-color: white;
-      color: black;
       border: 2px dashed #ccc;
       border-radius: 8px;
       display: flex;
@@ -79,7 +70,7 @@
       margin-top: 20px;
       font-weight: bold;
       font-size: 18px;
-      color: #00ff99;
+      color: green;
     }
 
     .buttons {
@@ -110,30 +101,30 @@
   </style>
 </head>
 <body>
-<img src="background-image.png" class="bg" />
-
-<h1>🔥 Fire Safety Match Game</h1>
-  <div class="instruction">Drag the left action to the correct scenario on the right.</div>
+  <h1>🔥 Match Fire Extinguishers</h1>
+  <div class="instruction" style="color: #e8f5e9;">Drag each extinguisher type onto its correct usage.</div>
 
   <div class="game-container">
-    <div class="column" id="draggables">
-      <div class="card" draggable="true" id="card1">Stay low and crawl to escape</div>
-      <div class="card" draggable="true" id="card3">Use extinguisher only if trained</div>
-      <div class="card" draggable="true" id="card2">Check handle before opening door</div>
-      <div class="card" draggable="true" id="card4">Close doors behind while exiting</div>
+    <div class="column" id="leftCards">
+      <div class="card" draggable="true" id="water">Water (Class A)</div>
+      <div class="card" draggable="true" id="foam">Foam (Class B)</div>
+      <div class="card" draggable="true" id="co2">CO₂ (Class C)</div>
+      <div class="card" draggable="true" id="wet">Wet Chemical (Class K)</div>
+      <div class="card" draggable="true" id="dry">Dry Powder (Class D)</div>
     </div>
-    <div class="column" id="dropzones">
-      <div class="dropzone" data-id="card1">If the hallway is filled with smoke...</div>
-      <div class="dropzone" data-id="card3">When fire is small and manageable...</div>
-      <div class="dropzone" data-id="card2">Before opening a door during fire...</div>
-      <div class="dropzone" data-id="card4">To help contain the fire while escaping...</div>
+    <div class="column" id="rightZones">
+      <div class="dropzone" data-id="water">Used for paper, wood, and cloth fires</div>
+      <div class="dropzone" data-id="foam">Used for flammable liquids</div>
+      <div class="dropzone" data-id="dry">Used for metal fires</div>
+      <div class="dropzone" data-id="co2">Used for electrical fires</div>
+      <div class="dropzone" data-id="wet">Used for cooking oil/fat fires</div>
     </div>
   </div>
 
-  <div id="resultMessage" class="hidden">✔ Great job! You matched all actions correctly!</div>
+  <div id="resultMessage" class="hidden">✅ Great job! You matched all correctly!</div>
   <div class="buttons hidden" id="controlButtons">
     <button onclick="location.reload()">🔁 Play Again</button>
-    <button onclick="window.location.href='drag_drop_game2.html'">▶ Next</button>
+    <button onclick="window.location.href='ScenarioGames.html'">▶ Next</button>
   </div>
 
   <script>
@@ -154,11 +145,11 @@
         const draggedId = e.dataTransfer.getData('text/plain');
         const draggedCard = document.getElementById(draggedId);
         if (draggedId === zone.getAttribute('data-id')) {
-          zone.textContent = zone.textContent + ' ' + draggedCard.textContent + ' ✔ Correct!';
+          zone.textContent = draggedCard.textContent + ' ✔ Correct!';
           zone.classList.add('correct');
           draggedCard.classList.add('hidden');
           correctMatches++;
-          if (correctMatches === 4) {
+          if (correctMatches === 5) {
             document.getElementById('resultMessage').classList.remove('hidden');
             document.getElementById('controlButtons').classList.remove('hidden');
           }

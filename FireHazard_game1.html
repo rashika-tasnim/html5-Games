@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spot the Fire Hazard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff6f0;
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #c62828;
+      margin-bottom: 8px;
+    }
+
+    .instruction {
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .container {
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 9%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-color: rgba(255, 0, 0, 0);
+      cursor: pointer;
+    }
+
+    .hotspot.active {
+      border: 2px dashed #f44336;
+      background-color: rgba(255, 204, 204, 0.5);
+    }
+
+    .feedback {
+      position: absolute;
+      background: #fff8dc;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #f0ad4e;
+      color: #333;
+      font-size: 14px;
+      word-wrap: break-word;
+      display: none;
+      z-index: 9;
+      max-width: 160px;
+    }
+
+    #nextBtn {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #b30000;
+      border: 1px solid #b30000;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #nextBtn:hover {
+      background-color: #ffe6e6;;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Spot the Fire Hazard</h1>
+  <div class="instruction">Tap on something unsafe in the room.</div>
+
+  <div class="container" id="scene">
+    <img src="FireHazards1.png" alt="Fire Hazard Scene" />
+
+    <!-- Hotspot 1: Overloaded outlet -->
+    <div class="hotspot" id="hotspot1" style="top: 50%; left: 9%;" onclick="showTip(this, 'Too many plugs<br>in one outlet.<br>Risk of fire.')"></div>
+
+    <!-- Hotspot 2: Kitchen stove hazard -->
+    <div class="hotspot" id="hotspot2" style="top: 42%; left: 75%;" onclick="showTip(this, 'Unattended stove<br>near paper is<br>a fire risk.')"></div>
+
+    <div id="tooltip" class="feedback"></div>
+  </div>
+
+  <button id="nextBtn" onclick="goToNext()">Next</button>
+
+  <script>
+    const found = { hotspot1: false, hotspot2: false };
+
+    function showTip(el, message) {
+      const tooltip = document.getElementById("tooltip");
+
+      // Activate clicked hotspot
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      el.classList.add('active');
+
+      // Show feedback message
+      tooltip.innerHTML = message;
+      tooltip.style.display = "block";
+      tooltip.style.top = `${el.offsetTop - 35}px`;
+      tooltip.style.left = `${el.offsetLeft + el.offsetWidth + 5}px`;
+
+      // Track which hazard is found
+      if (el.id === "hotspot1") found.hotspot1 = true;
+      if (el.id === "hotspot2") found.hotspot2 = true;
+
+      // Show Next button if both are found
+      if (found.hotspot1 && found.hotspot2) {
+        document.getElementById("nextBtn").style.display = "inline-block";
+      }
+    }
+
+    function goToNext() {
+      window.location.href = "FireHazard_game2.html";
+      // You can replace the alert with: window.location.href = "nextPage.html";
+    }
+  </script>
+</body>
+</html>
